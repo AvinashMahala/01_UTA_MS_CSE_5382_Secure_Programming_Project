@@ -3,12 +3,16 @@ using PhoneBook.Exceptions;
 using PhoneBook.Model;
 using System.Xml.Linq;
 using System.Data.SQLite;
+using NLog;
+using System.ComponentModel;
 
 namespace PhoneBook.Services
 {
     public class DictionaryPhoneBookService : IPhoneBookService
     {
         private Dictionary<string, string> _phoneBookEntries;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger(); // creates a logger using the class name
+
 
         public DictionaryPhoneBookService()
         {
@@ -17,26 +21,47 @@ namespace PhoneBook.Services
 
         public void Add(PhoneBookEntry phoneBookEntry)
         {
-            if (phoneBookEntry.Name == null || phoneBookEntry.PhoneNumber == null)
+            try
             {
-                throw new ArgumentException("Name and phone number must both be specified.");
+                if (phoneBookEntry.Name == null || phoneBookEntry.PhoneNumber == null)
+                {
+                    throw new ArgumentException("Name and phone number must both be specified.");
+                }
+                _phoneBookEntries.Add(phoneBookEntry.Name, phoneBookEntry.PhoneNumber);
+                AddData(phoneBookEntry.Name, phoneBookEntry.PhoneNumber);
+                logger.Info("Added Name: " + phoneBookEntry.Name + " having Phone Number: " + phoneBookEntry.PhoneNumber);
             }
-
-            _phoneBookEntries.Add(phoneBookEntry.Name, phoneBookEntry.PhoneNumber);
-            AddData(phoneBookEntry.Name, phoneBookEntry.PhoneNumber);
+            catch (ArgumentException ex)
+            {
+                logger.Error("Name and phone number must both be specified.", ex);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Generic Exception Logged.", ex);
+            }
         }
 
         public void Add(string name, string phoneNumber)
         {
-            if (name == null || phoneNumber == null)
+            try
             {
-                throw new ArgumentException("Name and phone number must both be specified.");
+                if (name == null || phoneNumber == null)
+                {
+                    throw new ArgumentException("Name and phone number must both be specified.");
+                }
+
+                _phoneBookEntries.Add(name, phoneNumber);
+                AddData(name, phoneNumber);
+                logger.Info("Added Name: " + name + " having Phone Number: " + phoneNumber);
             }
-
-            _phoneBookEntries.Add(name, phoneNumber);
-            AddData(name, phoneNumber);
-
-
+            catch (ArgumentException ex)
+            {
+                logger.Error("Name and phone number must both be specified.", ex);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Generic Exception Logged.", ex);
+            }
 
         }
 
@@ -54,6 +79,8 @@ namespace PhoneBook.Services
             cmd.Parameters.AddWithValue("@phParam", phoneNumber);
             cmd.ExecuteNonQuery();
             con.Close();
+
+
         }
 
         public IEnumerable<PhoneBookEntry> List()
@@ -66,6 +93,7 @@ namespace PhoneBook.Services
             //}
 
             entriesList = RetrieveDataFromDB();
+            logger.Info("Retrieved All List of PhoneBook Entries.");
 
             return entriesList;
         }
@@ -107,6 +135,7 @@ namespace PhoneBook.Services
 
             _phoneBookEntries.Remove(name);
             DeleteByNameFromDB(name);
+            logger.Info("Deleted By Name: " + name);
 
         }
 
@@ -135,6 +164,7 @@ namespace PhoneBook.Services
 
             _phoneBookEntries.Remove(name);
             DeleteByNumberFromDB(PhoneNumber);
+            logger.Info("Deleted Entry By Phone Number: " + PhoneNumber);
         }
 
         public void DeleteByNumberFromDB(string PhoneNumber)

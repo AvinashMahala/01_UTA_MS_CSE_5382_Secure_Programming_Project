@@ -3,6 +3,7 @@ using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using NLog;
 
 namespace PhoneBook.CustomAttributes
 {
@@ -12,6 +13,7 @@ namespace PhoneBook.CustomAttributes
         // Internal field to hold the mask value.
         //readonly string _mask;
         int errMsgStat;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger(); // creates a logger using the class name
 
         public PhoneMaskAttribute()
         {
@@ -37,6 +39,7 @@ namespace PhoneBook.CustomAttributes
             {
                 // Length mismatch.
                 errMsgStat = 0;
+                logger.Error("No Phone Number Provided!!");
                 return false;
             }
             int ph;
@@ -57,6 +60,7 @@ namespace PhoneBook.CustomAttributes
                 else
                 {
                     errMsgStat = 2;
+                    logger.Error("Invalid Phone Number Provided-->" + "'" + phoneNumber.ToString() + "'");
                     return false;
                 }
                 return true;
@@ -64,6 +68,7 @@ namespace PhoneBook.CustomAttributes
             else
             {
                 errMsgStat = 1;
+                logger.Error("Invalid Phone Number Provided-->" + "'" + phoneNumber.ToString() + "'");
                 return false;
             }
             /*

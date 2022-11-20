@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PhoneBook.CustomAttributes;
 
 namespace PhoneBook.Model
 {
@@ -8,6 +9,7 @@ namespace PhoneBook.Model
         public string? Name { get; set; }
 
         [Required]
+        [PhoneMask]
         public string? PhoneNumber { get; set; }
     }
 }

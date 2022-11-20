@@ -107,8 +107,18 @@ namespace PhoneBook.UnitTests
             Assert.That(result, Is.True);
         }
 
-
-
+        [TestCase("1234 \" AND 1=0 UNION ALL SELECT \"admin\", \"81dc9bdb52d04dc20036dbd8313ed055")]
+        [TestCase("\");waitfor delay '0:0:5'--")]
+        [TestCase(",(select * from (select(sleep(10)))a)\r\n%2c(select%20*%20from%20(select(sleep(10)))a)\r\n';WAITFOR DELAY '0:0:30'--")]
+        [TestCase("-1 UNION SELECT 1 INTO @,@")]
+        [TestCase("'ij- -klmnop'")]
+        [TestCase("e-'f g'-'-'-h")]
+        [TestCase("'-'c -'-'-'-d")]
+        [TestCase("a-'- b'-'-'-'")]
+        [TestCase("'-'- -'-'-'-'")]
+        [TestCase("'''' ''''''''")]
+        [TestCase("---- --------")]
+        [TestCase("Þór Eldon")]
         [TestCase("..Mathias")]
         [TestCase("76765675  sgigidgw")]
         [TestCase("O''''Malley, John")]
@@ -121,6 +131,66 @@ namespace PhoneBook.UnitTests
             // arrange
             var value = name;
             var attrib = new NameValidationAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.False);
+        }
+
+
+
+
+        [TestCase("+1 670 123 4567")]
+        [TestCase("1 670 123 4567")]
+        [TestCase("123 4567")]
+        [TestCase("12345")]
+        [TestCase("(703)111-2121")]
+        [TestCase("123-1234")]
+        [TestCase("+1(703)111-2121")]
+        [TestCase("+32 (21) 212-2324")]
+        [TestCase("1(703)123-1234")]
+        [TestCase("011 701 111 1234")]
+        [TestCase("12345.12345")]
+        [TestCase("011 1 703 111 1234")]
+        [TestCase("123-4567")]
+        [TestCase("(670)123-4567")]
+        [TestCase("670-123-4567")]
+        [TestCase("1-670-123-4567")]
+        [TestCase("1(670)123-4567")]
+        [TestCase("670 123 4567")]
+        [TestCase("670.123.4567")]
+        [TestCase("1 670 123 4567")]
+        [TestCase("1.670.123.4567")]
+        public void PhoneNumberValAttrTestWith_Given_ValidInputs_True(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.True);
+        }
+
+
+        [TestCase("123")]
+        [TestCase("1/703/123/1234")]
+        [TestCase("Nr 102-123-1234")]
+        [TestCase("<script>alert(“XSS”)</script>")]
+        [TestCase("7031111234")]
+        [TestCase("+1234 (201) 123-1234")]
+        [TestCase("(001) 123-1234")]
+        [TestCase("+01 (703) 123-1234")]
+        [TestCase("(703) 123-1234 ext 204")]
+        public void PhoneNumberValAttrTestWith_Given_InValidInputs_False(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
 
             // act
             var result = attrib.IsValid(value);

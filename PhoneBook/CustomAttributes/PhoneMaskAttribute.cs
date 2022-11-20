@@ -50,7 +50,9 @@ namespace PhoneBook.CustomAttributes
             //&& Int32.TryParse(phoneNumber, out ph) ==true
             if (phoneNumber.Length >= 5)
             {
-                var regex = @"^(?<one>[0-1]{0,3})?(\.|\-|\s)?(?<areaCode>[0-9]\d{0,2})?(\.|\-|\s)?(?<number>[1-9][\d]{0,2})?(\.|\-|\s)?(?<SubscriberNumber>\d{0,4})?$";
+                var regex = @"(^(?<withoutBrackets>((?(\+)((\+){1}([\d]){0,3})|([\d]{0,3}))[ .-]{0,1}){0,1}(([0-9]{3})[ .-]{0,1}){0,1}(([0-9]{3}[ .-]{1}){1}(([0-9]{4})){1}))$)"
++@"|(^(?<withBrackets>((?(\+)((\+){1}(([1-9]{1})(\d){0,2}))|(([1-9]{1})(\d){0,2}))){0,1})(?((?<cp7>([ ]{0,1}\()))(\k<cp7>([1-9]{1})(\d){0,2}\)))([ ]{0,1}[\d]){3}-([-]{0,1}[\d]{4})$)"
++@"|(^(?<fiveDigits>((?((?<cp3>([\d]{5})))(\k<cp3>([.-]{1}[\d]{5}){0,1}))))$)|(^[\d]{3} [\d]{1} [\d]{3} [\d]{3} [\d]{4}$)";
 
 
                 if (Regex.IsMatch(phoneNumber, regex))
@@ -63,7 +65,6 @@ namespace PhoneBook.CustomAttributes
                     logger.Error("Invalid Phone Number Provided-->" + "'" + phoneNumber.ToString() + "'");
                     return false;
                 }
-                return true;
             }
             else
             {

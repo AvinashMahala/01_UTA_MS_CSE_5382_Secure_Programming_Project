@@ -49,7 +49,9 @@ namespace PhoneBook.Services
             cmd = new SQLiteCommand();
             con.Open();
             cmd.Connection = con;
-            cmd.CommandText = "insert into Phonebook(Name,PhoneNumber) values ('" + name + "','" + phoneNumber + "')";
+            cmd.CommandText = "insert into Phonebook(Name,PhoneNumber) VALUES(@nameParam, @phParam)";
+            cmd.Parameters.AddWithValue("@nameParam", name);
+            cmd.Parameters.AddWithValue("@phParam", phoneNumber);
             cmd.ExecuteNonQuery();
             con.Close();
         }

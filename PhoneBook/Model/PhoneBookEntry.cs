@@ -6,6 +6,7 @@ namespace PhoneBook.Model
     public class PhoneBookEntry
     {
         [Required]
+        [NameValidation]
         public string? Name { get; set; }
 
         [Required]

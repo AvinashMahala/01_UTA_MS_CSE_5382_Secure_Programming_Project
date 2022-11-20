@@ -2,8 +2,7 @@
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
-
-
+using System.Text.RegularExpressions;
 
 namespace PhoneBook.CustomAttributes
 {
@@ -45,8 +44,21 @@ namespace PhoneBook.CustomAttributes
              * Some organizations use 5-digit extensions only 
              * for dialing from one internal phone to another.[Validation Below]
              */
-            if (phoneNumber.Length == 5 && Int32.TryParse(phoneNumber, out ph) == true)
+            //&& Int32.TryParse(phoneNumber, out ph) ==true
+            if (phoneNumber.Length >= 5)
             {
+                var regex = @"^(?<one>[0-1]{0,3})?(\.|\-|\s)?(?<areaCode>[0-9]\d{0,2})?(\.|\-|\s)?(?<number>[1-9][\d]{0,2})?(\.|\-|\s)?(?<SubscriberNumber>\d{0,4})?$";
+
+
+                if (Regex.IsMatch(phoneNumber, regex))
+                {
+                    return true;
+                }
+                else
+                {
+                    errMsgStat = 2;
+                    return false;
+                }
                 return true;
             }
             else
@@ -54,22 +66,13 @@ namespace PhoneBook.CustomAttributes
                 errMsgStat = 1;
                 return false;
             }
+            /*
+             The country code may or may not be preceded by a + which indicates that an international
+                dialing prefix, such as 00 or 011, must be included when dialing. If not using the plus, the
+                dialing prefix itself may be included.
+             */
             //-----------------------------------------------------------------------------
 
-            //for (int i = 0; i < mask.Length; i++)
-            //{
-            //    if (mask[i] == 'd' && char.IsDigit(phoneNumber[i]) == false)
-            //    {
-            //        // Digit expected at this position.
-            //        return false;
-            //    }
-            //    if (mask[i] == '-' && phoneNumber[i] != '-')
-            //    {
-            //        // Spacing character expected at this position.
-            //        return false;
-            //    }
-            //}
-            return true;
         }
 
         public override string FormatErrorMessage(string name)
@@ -82,6 +85,10 @@ namespace PhoneBook.CustomAttributes
             if (errMsgStat == 1)
             {
                 msg = "Not a Valid 5-Digit Extension!";
+            }
+            if (errMsgStat == 2)
+            {
+                msg = "Rest All!";
             }
             return String.Format(CultureInfo.CurrentCulture, msg);
         }

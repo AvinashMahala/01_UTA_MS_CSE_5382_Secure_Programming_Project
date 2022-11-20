@@ -177,6 +177,44 @@ namespace PhoneBook.UnitTests
         }
 
 
+
+        [TestCase("(+45) 35 35 35 35")]
+        [TestCase("+45 35 35 35 35")]
+        [TestCase("35 35 35 35")]
+        [TestCase("35353535")]
+        [TestCase("11.11.11.11")]
+        [TestCase("11 11 11 11")]
+        [TestCase("1111.1111")]
+        [TestCase("1111 1111")]
+        public void DanishNumbersValAttrTestWith_Given_ValidInputs_True(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.True);
+        }
+
+        [TestCase("(45)35353535")]
+        [TestCase("4535353535")]
+        public void DanishNumbersValAttrTestWith_Given_InValidInputs_False(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.False);
+        }
+
+
         [TestCase("123")]
         [TestCase("1/703/123/1234")]
         [TestCase("Nr 102-123-1234")]

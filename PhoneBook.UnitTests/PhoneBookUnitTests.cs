@@ -236,5 +236,49 @@ namespace PhoneBook.UnitTests
             // assert
             Assert.That(result, Is.False);
         }
+
+
+
+
+        [TestCase("123-456-7890")]
+        [TestCase("(123) 456-7890")]
+        [TestCase("123 456 7890")]
+        [TestCase("123.456.7890")]
+        [TestCase("+91 (123) 456-7890")]
+        public void PhoneNumberValAttrTestWith_My_CustomInputs_ValidInputs_True(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.True);
+        }
+
+
+
+        [TestCase("&123-456-7890")]
+        [TestCase("(12399) 456-7890")]
+        [TestCase("123 456 7807790")]
+        [TestCase("123.47776.7890")]
+        [TestCase("+91 ([[23) 456-7890")]
+        [TestCase("cbiwuegicv75475147")]
+        [TestCase("e65-dguhg1-2197ydb-")]
+        [TestCase("d7612-dd     -12hjhd")]
+        public void PhoneNumberValAttrTestWith_My_CustomInputs_InValidInputs_False(string phoneNumber)
+        {
+            // arrange
+            var value = phoneNumber;
+            var attrib = new PhoneMaskAttribute();
+
+            // act
+            var result = attrib.IsValid(value);
+
+            // assert
+            Assert.That(result, Is.False);
+        }
     }
 }

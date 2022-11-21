@@ -42,12 +42,6 @@ namespace PhoneBook.CustomAttributes
                 logger.Error("No Phone Number Provided!!");
                 return false;
             }
-            int ph;
-            /*
-             * Some organizations use 5-digit extensions only 
-             * for dialing from one internal phone to another.[Validation Below]
-             */
-            //&& Int32.TryParse(phoneNumber, out ph) ==true
             if (phoneNumber.Length >= 5)
             {
                 var regex = @"(^(?<withoutBrackets>((?(\+)((\+){1}([\d]){0,3})|([\d]{0,3}))[ .-]{0,1}){0,1}(([0-9]{3})[ .-]{0,1}){0,1}(([0-9]{3}[ .-]{1}){1}(([0-9]{4})){1}))$)"

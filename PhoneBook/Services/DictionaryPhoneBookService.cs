@@ -87,11 +87,6 @@ namespace PhoneBook.Services
         {
             List<PhoneBookEntry> entriesList = new List<PhoneBookEntry>();
 
-            //foreach (var name in _phoneBookEntries.Keys)
-            //{
-            //    entriesList.Add(new PhoneBookEntry { Name = name, PhoneNumber = _phoneBookEntries[name] });
-            //}
-
             entriesList = RetrieveDataFromDB();
             logger.Info("Retrieved All List of PhoneBook Entries.");
 
@@ -128,6 +123,7 @@ namespace PhoneBook.Services
 
         public void DeleteByName(string name)
         {
+            RetrieveDataFromDB();
             if (!_phoneBookEntries.ContainsKey(name))
             {
                 throw new NotFoundException($"No phonebook entry found containing name {name}.");
@@ -148,7 +144,8 @@ namespace PhoneBook.Services
             cmd = new SQLiteCommand();
             con.Open();
             cmd.Connection = con;
-            cmd.CommandText = "delete from Phonebook where Name = '" + name + "'";
+            cmd.CommandText = "delete from Phonebook where Name = @nameParam";
+            cmd.Parameters.AddWithValue("@nameParam", name);
             cmd.ExecuteNonQuery();
             con.Close();
         }
@@ -156,6 +153,7 @@ namespace PhoneBook.Services
 
         public void DeleteByNumber(string PhoneNumber)
         {
+            RetrieveDataFromDB();
             var name = _phoneBookEntries.Where(kvp => kvp.Value == PhoneNumber).FirstOrDefault().Key;
             if (name == null)
             {
@@ -176,7 +174,8 @@ namespace PhoneBook.Services
             cmd = new SQLiteCommand();
             con.Open();
             cmd.Connection = con;
-            cmd.CommandText = "delete from Phonebook where PhoneNumber = '" + PhoneNumber + "'";
+            cmd.CommandText = "delete from Phonebook where PhoneNumber = @numParam";
+            cmd.Parameters.AddWithValue("@numParam", PhoneNumber);
             cmd.ExecuteNonQuery();
             con.Close();
         }

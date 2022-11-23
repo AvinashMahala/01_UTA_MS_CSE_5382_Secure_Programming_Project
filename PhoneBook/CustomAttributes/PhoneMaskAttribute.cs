@@ -10,8 +10,6 @@ namespace PhoneBook.CustomAttributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     sealed public class PhoneMaskAttribute : ValidationAttribute
     {
-        // Internal field to hold the mask value.
-        //readonly string _mask;
         int errMsgStat;
         private readonly Logger logger = LogManager.GetCurrentClassLogger(); // creates a logger using the class name
 
@@ -25,19 +23,13 @@ namespace PhoneBook.CustomAttributes
         {
             var phoneNumber = (String)value;
             bool result = true;
-            //if (this.Mask != null)
-            //{
             result = MatchesMask(phoneNumber);
-            //}
             return result;
         }
-
-        // Checks if the entered phone number matches the mask.
         internal bool MatchesMask(string phoneNumber)
         {
             if (phoneNumber.Trim().Length == 0)
             {
-                // Length mismatch.
                 errMsgStat = 0;
                 logger.Error("No Phone Number Provided!!");
                 return false;
@@ -67,12 +59,6 @@ namespace PhoneBook.CustomAttributes
                 logger.Error("Invalid Phone Number Provided-->" + "'" + phoneNumber.ToString() + "'");
                 return false;
             }
-            /*
-             The country code may or may not be preceded by a + which indicates that an international
-                dialing prefix, such as 00 or 011, must be included when dialing. If not using the plus, the
-                dialing prefix itself may be included.
-             */
-            //-----------------------------------------------------------------------------
 
         }
 
@@ -89,7 +75,7 @@ namespace PhoneBook.CustomAttributes
             }
             if (errMsgStat == 2)
             {
-                msg = "Rest All!";
+                msg = "The Number Provided does not match with the format prescribed!!!";
             }
             return String.Format(CultureInfo.CurrentCulture, msg);
         }

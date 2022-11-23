@@ -68,11 +68,14 @@ namespace PhoneBook
                 cmd.ExecuteNonQuery();
                 con.Close();
 
+                //The below code was only for testing at initial phase.
+                //-----------------------------------------------------------------------------------
                 //AddData("avinash","111-111-1111");
                 //AddData("biraaj", "222-222-2222");
                 //AddData("gyana", "333-333-3333");
                 //AddData("chintamani", "444-444-4444");
                 //SelectData();
+                //-----------------------------------------------------------------------------------
 
             }
             else
@@ -83,39 +86,45 @@ namespace PhoneBook
             }
         }
 
-        public static void AddData(string name, string phoneNumber)
-        {
-            SQLiteConnection con;
-            SQLiteCommand cmd;
-            SQLiteDataReader dr;
-            con = new SQLiteConnection("Data Source=Phonebook.sqlite;Version=3;");
-            cmd = new SQLiteCommand();
-            con.Open();
-            cmd.Connection = con;
-            cmd.CommandText = "insert into Phonebook(Name,PhoneNumber) values ('" + name + "','" + phoneNumber + "')";
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
 
-        public static void SelectData()
-        {
-            int counter = 0;
-            SQLiteConnection con;
-            SQLiteCommand cmd;
-            SQLiteDataReader dr;
-            con = new SQLiteConnection("Data Source=Phonebook.sqlite;Version=3;");
-            cmd = new SQLiteCommand("Select * From Phonebook", con);
-            con.Open();
-            dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                counter++;
-                Console.Write("Data");
-                Console.WriteLine(dr[0] + " : " + dr[1] + " " + dr[2]);
 
-            }
-            con.Close();
+        //The below code was only for testing at initial phase.
 
-        }
+        //-----------------------------------------------------------------------------------
+        //public static void AddData(string name, string phoneNumber)
+        //{
+        //    SQLiteConnection con;
+        //    SQLiteCommand cmd;
+        //    SQLiteDataReader dr;
+        //    con = new SQLiteConnection("Data Source=Phonebook.sqlite;Version=3;");
+        //    cmd = new SQLiteCommand();
+        //    con.Open();
+        //    cmd.Connection = con;
+        //    cmd.CommandText = "insert into Phonebook(Name,PhoneNumber) values ('" + name + "','" + phoneNumber + "')";
+        //    cmd.ExecuteNonQuery();
+        //    con.Close();
+        //}
+
+        //public static void SelectData()
+        //{
+        //    int counter = 0;
+        //    SQLiteConnection con;
+        //    SQLiteCommand cmd;
+        //    SQLiteDataReader dr;
+        //    con = new SQLiteConnection("Data Source=Phonebook.sqlite;Version=3;");
+        //    cmd = new SQLiteCommand("Select * From Phonebook", con);
+        //    con.Open();
+        //    dr = cmd.ExecuteReader();
+        //    while (dr.Read())
+        //    {
+        //        counter++;
+        //        Console.Write("Data");
+        //        Console.WriteLine(dr[0] + " : " + dr[1] + " " + dr[2]);
+
+        //    }
+        //    con.Close();
+
+        //}
+        //-----------------------------------------------------------------------------------
     }
 }

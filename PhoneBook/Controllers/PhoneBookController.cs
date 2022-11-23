@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using PhoneBook.Exceptions;
 using PhoneBook.Model;
 using PhoneBook.Services;
@@ -11,6 +12,7 @@ namespace PhoneBook.Controllers
     {
         private readonly IPhoneBookService _phoneBookService;
         private readonly ILogger<PhoneBookController> _logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public PhoneBookController(IPhoneBookService phoneBookService, ILogger<PhoneBookController> logger)
         {
@@ -22,7 +24,16 @@ namespace PhoneBook.Controllers
         [Route("list")]
         public IEnumerable<PhoneBookEntry> List()
         {
-            return _phoneBookService.List();
+            try
+            {
+                return _phoneBookService.List();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex,"Error Occured While Retrieving Phonenumber List!!");
+                throw;
+            }
+            
         }
 
         [HttpPost]
@@ -31,6 +42,7 @@ namespace PhoneBook.Controllers
         {
             if (!ModelState.IsValid)
             {
+                logger.Error("Invalid Name or Phonenumber Provided!!");
                 return BadRequest(ModelState);
             }
 
@@ -45,12 +57,18 @@ namespace PhoneBook.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    logger.Error("Missing Required Name Field!!");
+                    return BadRequest(ModelState);
+                }
                 _phoneBookService.DeleteByName(name);
 
                 return Ok();
             }
             catch (NotFoundException ex)
             {
+                logger.Error(ex.Message);
                 return NotFound(ex.Message);
             }
         }
@@ -61,12 +79,18 @@ namespace PhoneBook.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    logger.Error("Missing Required Number Field!!");
+                    return BadRequest(ModelState);
+                }
                 _phoneBookService.DeleteByNumber(number);
 
                 return Ok();
             }
             catch (NotFoundException ex)
             {
+                logger.Error(ex.Message);
                 return NotFound(ex.Message);
             }
         }

@@ -27,14 +27,11 @@ namespace PhoneBook.UnitTests
         [TestCase("Cher")]
         public void NameValidationAttibuteTestWith_GivenValidInputs_True(string name)
         {
-            // arrange
             var value = name;
             var attrib = new NameValidationAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.True);
         }
 
@@ -47,14 +44,11 @@ namespace PhoneBook.UnitTests
         [TestCase("select * from users;")]
         public void NameValidationAttibuteTestWith_GivenInValidInputs_False(string name)
         {
-            // arrange
             var value = name;
             var attrib = new NameValidationAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.False);
         }
 
@@ -96,14 +90,11 @@ namespace PhoneBook.UnitTests
         [TestCase("Mathias d'Arras")]
         public void NameValidationAttibuteTestWith_MyCustomValidInputs_True(string name)
         {
-            // arrange
             var value = name;
             var attrib = new NameValidationAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.True);
         }
 
@@ -128,14 +119,11 @@ namespace PhoneBook.UnitTests
         [TestCase("123John")]
         public void NameValidationAttibuteTestWith_MyCustomInValidInputs_False(string name)
         {
-            // arrange
             var value = name;
             var attrib = new NameValidationAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.False);
         }
 
@@ -165,14 +153,10 @@ namespace PhoneBook.UnitTests
         [TestCase("1.670.123.4567")]
         public void PhoneNumberValAttrTestWith_Given_ValidInputs_True(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
-
-            // assert
             Assert.That(result, Is.True);
         }
 
@@ -188,14 +172,11 @@ namespace PhoneBook.UnitTests
         [TestCase("1111 1111")]
         public void DanishNumbersValAttrTestWith_Given_ValidInputs_True(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.True);
         }
 
@@ -203,14 +184,11 @@ namespace PhoneBook.UnitTests
         [TestCase("4535353535")]
         public void DanishNumbersValAttrTestWith_Given_InValidInputs_False(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.False);
         }
 
@@ -226,14 +204,11 @@ namespace PhoneBook.UnitTests
         [TestCase("(703) 123-1234 ext 204")]
         public void PhoneNumberValAttrTestWith_Given_InValidInputs_False(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.False);
         }
 
@@ -247,14 +222,11 @@ namespace PhoneBook.UnitTests
         [TestCase("+91 (123) 456-7890")]
         public void PhoneNumberValAttrTestWith_My_CustomInputs_ValidInputs_True(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.True);
         }
 
@@ -270,14 +242,11 @@ namespace PhoneBook.UnitTests
         [TestCase("d7612-dd     -12hjhd")]
         public void PhoneNumberValAttrTestWith_My_CustomInputs_InValidInputs_False(string phoneNumber)
         {
-            // arrange
             var value = phoneNumber;
             var attrib = new PhoneMaskAttribute();
 
-            // act
             var result = attrib.IsValid(value);
 
-            // assert
             Assert.That(result, Is.False);
         }
     }

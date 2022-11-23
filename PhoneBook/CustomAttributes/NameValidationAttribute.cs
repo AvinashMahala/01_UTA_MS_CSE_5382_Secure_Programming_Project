@@ -10,8 +10,6 @@ namespace PhoneBook.CustomAttributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     sealed public class NameValidationAttribute : ValidationAttribute
     {
-        // Internal field to hold the mask value.
-        //readonly string _mask;
         int errMsgStat;
         private readonly Logger logger = LogManager.GetCurrentClassLogger(); // creates a logger using the class name
 
@@ -25,14 +23,10 @@ namespace PhoneBook.CustomAttributes
         {
             var name = (String)value;
             bool result = true;
-            //if (this.Mask != null)
-            //{
             result = MatchesMask(name);
-            //}
             return result;
         }
 
-        // Checks if the entered phone number matches the mask.
         internal bool MatchesMask(string name)
         {
             if (name.Trim().Length < 2)

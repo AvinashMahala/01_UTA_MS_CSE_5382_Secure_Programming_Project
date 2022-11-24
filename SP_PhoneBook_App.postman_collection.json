@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "5f7186c3-2956-46a5-aa24-4816220b22cb",
+		"name": "SP_PhoneBook_App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23764386"
+	},
+	"item": [
+		{
+			"name": "RetrieveAllPhoneBookRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        <tr>\r",
+							"            <th>Name</th>\r",
+							"            <th>Phone Number</th>\r",
+							"        </tr>\r",
+							"\r",
+							"        {{#each response}}\r",
+							"            <tr>\r",
+							"                <td>{{name}}</td>\r",
+							"                <td>{{phoneNumber}}</td>\r",
+							"            </tr>\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7151/PhoneBook/list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7151",
+					"path": [
+						"PhoneBook",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a PhoneBook Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"phoneNumber\": \"{{phoneNumber}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7151/PhoneBook/add",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7151",
+					"path": [
+						"PhoneBook",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAPhoneBookRecordByName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7151/PhoneBook/deleteByName?name={{name}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7151",
+					"path": [
+						"PhoneBook",
+						"deleteByName"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{name}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAPhoneBookRecordByNumber",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7151/PhoneBook/deleteByNumber?number={{phoneNumber}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7151",
+					"path": [
+						"PhoneBook",
+						"deleteByNumber"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "{{phoneNumber}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "phoneRecordName",
+			"value": "avinashtestA"
+		}
+	]
+}

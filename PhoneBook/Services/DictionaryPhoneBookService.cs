@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using PhoneBook.Exceptions;
+﻿using PhoneBook.Exceptions;
 using PhoneBook.Model;
 using System.Xml.Linq;
 using System.Data.SQLite;

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5f7186c3-2956-46a5-aa24-4816220b22cb",
+		"_postman_id": "cff8f2f0-f0d3-4602-9cc7-1e33c39847e3",
 		"name": "SP_PhoneBook_App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23764386"
@@ -46,12 +46,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:7151/PhoneBook/list",
-					"protocol": "https",
+					"raw": "{{websiteURL}}/PhoneBook/list",
 					"host": [
-						"localhost"
+						"{{websiteURL}}"
 					],
-					"port": "7151",
 					"path": [
 						"PhoneBook",
 						"list"
@@ -89,12 +87,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:7151/PhoneBook/add",
-					"protocol": "https",
+					"raw": "{{websiteURL}}/PhoneBook/add",
 					"host": [
-						"localhost"
+						"{{websiteURL}}"
 					],
-					"port": "7151",
 					"path": [
 						"PhoneBook",
 						"add"
@@ -123,12 +119,10 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:7151/PhoneBook/deleteByName?name={{name}}",
-					"protocol": "https",
+					"raw": "{{websiteURL}}/PhoneBook/deleteByName?name={{name}}",
 					"host": [
-						"localhost"
+						"{{websiteURL}}"
 					],
-					"port": "7151",
 					"path": [
 						"PhoneBook",
 						"deleteByName"
@@ -149,12 +143,10 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:7151/PhoneBook/deleteByNumber?number={{phoneNumber}}",
-					"protocol": "https",
+					"raw": "{{websiteURL}}/PhoneBook/deleteByNumber?number={{phoneNumber}}",
 					"host": [
-						"localhost"
+						"{{websiteURL}}"
 					],
-					"port": "7151",
 					"path": [
 						"PhoneBook",
 						"deleteByNumber"
@@ -170,10 +162,30 @@
 			"response": []
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"key": "phoneRecordName",
-			"value": "avinashtestA"
+			"key": "websiteURL",
+			"value": "https://localhost:7151"
 		}
 	]
 }
